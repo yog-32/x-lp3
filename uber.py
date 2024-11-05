@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_squared_error
-
+data = pd.read_csv("data/uber.csv", sep=',', on_bad_lines='skip')
 # %%
 data["pickup_datetime"] = pd.to_datetime(data["pickup_datetime"], errors='coerce')
 
