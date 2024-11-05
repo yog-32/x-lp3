@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MarksManagmtSys {
+    struct Student {
+        uint256 ID;
+        string fName;
+        string lName;
+        uint256 marks;
+    }
+
+    address owner;
+    uint256 public stdCount;
+    mapping(uint256 => Student) public stdRecords;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function addNewRecords(uint256 _ID, string memory _fName, string memory _lName, uint256 _marks) public onlyOwner {
+        stdCount++;
+        stdRecords[stdCount] = Student(_ID, _fName, _lName, _marks);
+    }
+
+    function bonusMarks(uint256 _studentId, uint256 _bonus) public onlyOwner {
+        require(_studentId <= stdCount, "Student ID does not exist");
+        uint256 newMarks = stdRecords[_studentId].marks + _bonus;
+        require(newMarks >= stdRecords[_studentId].marks, "Overflow");
+        stdRecords[_studentId].marks = newMarks;
+    }
+}
